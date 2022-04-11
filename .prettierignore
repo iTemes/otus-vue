@@ -1,0 +1,4 @@
+.prettierrc
+*.config.*
+*.json
+.eslintrc.js
