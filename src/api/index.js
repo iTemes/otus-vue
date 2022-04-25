@@ -4,7 +4,6 @@ function setParams(params) {
   const queries = params || {};
   const queriesObject = Object.assign(queries, {
     key: process.env.VUE_APP_API_KEY,
-    q: "Elizabeth+Bennet",
   });
 
   return new URLSearchParams(queriesObject);

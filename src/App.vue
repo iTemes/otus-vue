@@ -1,23 +1,18 @@
 <script setup>
 import { reactive, onBeforeMount, onMounted } from "vue";
-import getBooksFromParams from "./api";
 
 import BookList from "./components/BookList/BookList.vue";
+import SearchForm from "./components/SearchForm/SearchForm.vue";
 
 const state = reactive({ books: [] });
 
+const handleFormSubmit = (data) => {
+  console.log("$emit", data);
+  state.books = [...data];
+};
+
 onBeforeMount(() => {
   console.log("onBeforeMount");
-  getBooksFromParams()
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("data", data);
-      if (data.error) throw new Error(data.error);
-      state.books = [...data.items];
-    })
-    .catch((error) => {
-      console.log("Error", error.message);
-    });
 });
 
 onMounted(() => {
@@ -26,9 +21,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <BookList :books-list="state.books" />
-  </div>
+  <main>
+    <SearchForm @on-form-submit="handleFormSubmit" />
+    <BookList v-if="state.books.length" :books-list="state.books" />
+  </main>
 </template>
 
 <style>

@@ -12,10 +12,12 @@ const props = defineProps({
 <template>
   <article class="card">
     <img
+      v-if="book.imageLinks"
       class="card__image"
       :src="book.imageLinks.thumbnail"
       :alt="book.title"
     />
+    <div v-else class="card__no-image"><p>No image</p></div>
     <div class="card__details">
       <h4 class="card__name">{{ book.title }}</h4>
       <p class="card__subtitle">{{ book.subtitle }}</p>
@@ -56,7 +58,8 @@ const props = defineProps({
     }
   }
 
-  &__image {
+  &__image,
+  &__no-image {
     height: 50%;
     object-fit: cover;
     width: 100%;
@@ -65,6 +68,17 @@ const props = defineProps({
     transform-origin: 0 0;
     margin-bottom: 0;
     transition: all 0.2s ease;
+    background: #d6d6d6;
+  }
+
+  &__no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2em;
+
+    color: #fff;
   }
 
   &__details {
