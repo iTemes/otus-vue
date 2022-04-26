@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from "vue";
-
 const props = defineProps({
   book: {
     type: Object,
     default: () => {},
   },
 });
+
+const emit = defineEmits(["onBookOpen"]);
 </script>
 
 <template>
@@ -25,9 +25,7 @@ const props = defineProps({
 
       <div class="card__meta">
         <button class="like">Like</button>
-        <a href="http://" target="_blank" rel="noopener noreferrer">
-          Read more
-        </a>
+        <button @click="$emit('onBookOpen')">Read more</button>
       </div>
     </div>
   </article>
@@ -94,6 +92,7 @@ const props = defineProps({
 
   &__name {
     margin: 0;
+    font-weight: 600;
   }
 
   &__subname {

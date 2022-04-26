@@ -10,17 +10,22 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["onReadMore"]);
+
 const isBooksListLength = computed(() => props.booksList.length > 0);
 </script>
 
 <template>
   <section>
-    <h2>Book list</h2>
+    <h2 class="text-3xl mb-6 font-bold">Book list</h2>
 
     <p v-if="!isBooksListLength">No results from server</p>
     <ul v-else class="books-list">
       <li v-for="book in props.booksList" :key="book.id">
-        <BookItem :book="book.volumeInfo" />
+        <BookItem
+          :book="book.volumeInfo"
+          @on-book-open="$emit('onReadMore', book)"
+        />
       </li>
     </ul>
   </section>

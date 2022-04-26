@@ -1,29 +1,41 @@
 <script setup>
-import { reactive, onBeforeMount, onMounted } from "vue";
+import { reactive } from "vue";
 
 import BookList from "./components/BookList/BookList.vue";
+import BookPage from "./components/BookPage/BookPage.vue";
 import SearchForm from "./components/SearchForm/SearchForm.vue";
 
-const state = reactive({ books: [] });
+const state = reactive({ books: [], currentBook: null });
 
 const handleFormSubmit = (data) => {
   state.books = [];
   state.books = [...data];
 };
 
-onBeforeMount(() => {
-  console.log("onBeforeMount");
-});
-
-onMounted(() => {
-  console.log("onMounted");
-});
+const handleReadMore = (book) => {
+  state.currentBook = book;
+};
+const handleCloseBook = () => {
+  state.currentBook = null;
+};
 </script>
 
 <template>
-  <main>
-    <SearchForm @on-form-submit="handleFormSubmit" />
-    <BookList v-if="state.books.length" :books-list="state.books" />
+  <main class="container mx-auto">
+    <BookPage
+      v-if="state.currentBook"
+      :volume-info="state.currentBook.volumeInfo"
+      :sale-info="state.currentBook.saleInfo"
+      @on-close-book="handleCloseBook"
+    />
+    <div v-show="!state.currentBook">
+      <SearchForm @on-form-submit="handleFormSubmit" />
+      <BookList
+        v-if="state.books.length"
+        :books-list="state.books"
+        @on-read-more="handleReadMore"
+      />
+    </div>
   </main>
 </template>
 
