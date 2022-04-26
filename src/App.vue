@@ -19,6 +19,7 @@ const handleFormSubmit = (data) => {
 };
 
 const handleReadMore = (book) => {
+  console.log("#handleReadMore in APP", book);
   state.currentBook = book;
 };
 const handleCloseBook = () => {
@@ -93,12 +94,6 @@ const handleAddToLibary = (book) => {
 
     <!-- Пока не используем роуты -->
     <template v-if="!state.openLibary">
-      <BookPage
-        v-if="state.currentBook"
-        :volume-info="state.currentBook.volumeInfo"
-        :sale-info="state.currentBook.saleInfo"
-        @on-close-book="handleCloseBook"
-      />
       <div v-show="!state.currentBook">
         <SearchForm @on-form-submit="handleFormSubmit" />
         <BookList
@@ -111,8 +106,15 @@ const handleAddToLibary = (book) => {
     </template>
     <LibaryPage
       v-else
+      v-show="!state.currentBook"
       :users-books="state.usersBooks"
       @on-read-more="handleReadMore"
+    />
+    <BookPage
+      v-if="state.currentBook"
+      :volume-info="state.currentBook.volumeInfo"
+      :sale-info="state.currentBook.saleInfo"
+      @on-close-book="handleCloseBook"
     />
   </main>
 </template>

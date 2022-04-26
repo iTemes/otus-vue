@@ -8,6 +8,11 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["onReadMore"]);
+
+const handleReadMore = (book) => {
+  console.log("#Readmore in Libary Page", book);
+  emit("onReadMore", book);
+};
 </script>
 
 <template>
@@ -16,7 +21,7 @@ const emit = defineEmits(["onReadMore"]);
     <BookList
       v-if="props.usersBooks.length"
       :books-list="props.usersBooks"
-      @on-read-more="$emit('onReadMore')"
+      @on-read-more="handleReadMore"
     />
   </section>
 </template>
