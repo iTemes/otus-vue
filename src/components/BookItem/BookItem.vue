@@ -6,7 +6,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["onBookOpen"]);
+const emit = defineEmits(["onBookOpen", "onAddBook"]);
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const emit = defineEmits(["onBookOpen"]);
       <p class="card__description">{{ book.description }}</p>
 
       <div class="card__meta">
-        <button class="like">Like</button>
+        <button class="like" @click="$emit('onAddBook')">Like</button>
         <button @click="$emit('onBookOpen')">Read more</button>
       </div>
     </div>

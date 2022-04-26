@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["onReadMore"]);
+const emit = defineEmits(["onReadMore", "onAddToLibary"]);
 
 const isBooksListLength = computed(() => props.booksList.length > 0);
 </script>
@@ -25,6 +25,7 @@ const isBooksListLength = computed(() => props.booksList.length > 0);
         <BookItem
           :book="book.volumeInfo"
           @on-book-open="$emit('onReadMore', book)"
+          @on-add-book="$emit('onAddToLibary', book)"
         />
       </li>
     </ul>

@@ -26,7 +26,7 @@ const getCategories = computed(() => props.volumeInfo.categories || []);
 </script>
 
 <template>
-  <section class="md:w-2/4 mx-auto">
+  <section class="md:w-2/4 mx-auto mt-10">
     <div class="relative max-w-sm w-full lg:max-w-full lg:flex items-start">
       <button
         class="absolute top-2 right-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
@@ -104,6 +104,7 @@ const getCategories = computed(() => props.volumeInfo.categories || []);
             <b>{{ getRetailPrice }}</b>
           </p>
           <a
+            v-if="saleInfo.buyLink"
             :href="saleInfo.buyLink"
             target="_blank"
             class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-4 rounded"
