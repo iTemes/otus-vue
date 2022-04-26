@@ -7,7 +7,7 @@ import SearchForm from "./components/SearchForm/SearchForm.vue";
 const state = reactive({ books: [] });
 
 const handleFormSubmit = (data) => {
-  console.log("$emit", data);
+  state.books = [];
   state.books = [...data];
 };
 

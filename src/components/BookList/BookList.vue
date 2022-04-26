@@ -29,7 +29,7 @@ const isBooksListLength = computed(() => props.booksList.length > 0);
 <style lang="scss" scoped>
 .books-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
   gap: 20px;
 
   list-style: none;

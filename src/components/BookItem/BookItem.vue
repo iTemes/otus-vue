@@ -60,7 +60,7 @@ const props = defineProps({
 
   &__image,
   &__no-image {
-    height: 50%;
+    height: 85%;
     object-fit: cover;
     width: 100%;
     max-width: 100%;
@@ -87,7 +87,7 @@ const props = defineProps({
     left: 0;
     right: 0;
     bottom: 0;
-    top: 60%;
+    top: 75%;
     padding: 20px;
     transition: all 0.2s ease;
   }

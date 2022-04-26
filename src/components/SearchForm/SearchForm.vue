@@ -1,10 +1,13 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { reactive, watch, computed } from "vue";
 
 import getBooksFromParams from "../../api";
 
-const picked = ref("Title");
-const textField = ref("");
+const state = reactive({
+  picked: "Title",
+  textField: "",
+  queryParams: "Title",
+});
 
 const emit = defineEmits({
   onFormSubmit(payload) {
@@ -12,26 +15,30 @@ const emit = defineEmits({
   },
 });
 
-const onSubmit = () => {
-  console.log("Form Submit");
-  let queryParams = null;
+watch(
+  () => state.picked,
+  (newPicked) => {
+    onSubmit();
+  }
+);
 
-  switch (picked.value) {
+const onSubmit = () => {
+  switch (state.picked) {
     case "Title":
-      queryParams = {
-        q: `${textField.value}+intitle`,
+      state.queryParams = {
+        q: `${state.textField}+intitle:${state.textField}`,
       };
       break;
     case "Author":
-      queryParams = {
-        q: `${textField.value}+inauthor`,
+      state.queryParams = {
+        q: `inauthor:${state.textField}`,
       };
       break;
     default:
       return;
   }
 
-  getBooksFromParams(queryParams)
+  getBooksFromParams(state.queryParams)
     .then((response) => response.json())
     .then((data) => {
       if (data.error) throw new Error(data.error);
@@ -44,7 +51,7 @@ const onSubmit = () => {
 };
 
 const getInputLegend = computed(() =>
-  picked.value === "Title" ? "Title name" : "Author name"
+  state.picked === "Title" ? "Title name" : "Author name"
 );
 </script>
 
@@ -52,11 +59,11 @@ const getInputLegend = computed(() =>
   <section class="search">
     <form @submit.prevent="onSubmit">
       <fieldset>
-        <div>Picked: {{ picked }}</div>
+        <div>Picked: {{ state.picked }}</div>
 
         <input
           id="title-input"
-          v-model="picked"
+          v-model="state.picked"
           name="searchType"
           type="radio"
           value="Title"
@@ -65,7 +72,7 @@ const getInputLegend = computed(() =>
 
         <input
           id="author-input"
-          v-model="picked"
+          v-model="state.picked"
           name="searchType"
           type="radio"
           value="Author"
@@ -74,7 +81,7 @@ const getInputLegend = computed(() =>
       </fieldset>
       <fieldset>
         <legend>{{ getInputLegend }}</legend>
-        <input v-model="textField" type="text" />
+        <input v-model="state.textField" type="text" />
         <button>Search</button>
       </fieldset>
     </form>
