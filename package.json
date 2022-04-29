@@ -13,7 +13,8 @@
     "postcss": "^8",
     "tailwindcss": "^3",
     "uniqid": "^5.4.0",
-    "vue": "^3.2.33"
+    "vue": "^3.2.33",
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -21,6 +22,7 @@
     "@tailwindcss/forms": "^0.5.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-standard": "^6.1.0",
     "eslint": "^7.32.0",

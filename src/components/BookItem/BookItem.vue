@@ -1,4 +1,8 @@
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
 const props = defineProps({
   book: {
     type: Object,
@@ -10,22 +14,31 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["onBookOpen", "onAddBook", "onRemoveBook"]);
+const emit = defineEmits(["onAddBook", "onRemoveBook"]);
+
+const handleOpenBook = () => {
+  router.push({
+    name: `book`,
+    params: {
+      id: props.book.id,
+    },
+  });
+};
 </script>
 
 <template>
   <article class="card">
     <img
-      v-if="book.imageLinks"
+      v-if="book.volumeInfo.imageLinks"
       class="card__image"
-      :src="book.imageLinks.thumbnail"
-      :alt="book.title"
+      :src="book.volumeInfo.imageLinks.thumbnail"
+      :alt="book.volumeInfo.title"
     />
     <div v-else class="card__no-image"><p>No image</p></div>
     <div class="card__details">
-      <h4 class="card__name">{{ book.title }}</h4>
-      <p class="card__subtitle">{{ book.subtitle }}</p>
-      <p class="card__description">{{ book.description }}</p>
+      <h4 class="card__name">{{ book.volumeInfo.title }}</h4>
+      <p class="card__subtitle">{{ book.volumeInfo.subtitle }}</p>
+      <p class="card__description">{{ book.volumeInfo.description }}</p>
 
       <div class="card__meta">
         <button
@@ -42,7 +55,7 @@ const emit = defineEmits(["onBookOpen", "onAddBook", "onRemoveBook"]);
         >
           Remove
         </button>
-        <button @click="$emit('onBookOpen')">Read more</button>
+        <button @click="handleOpenBook">Read more</button>
       </div>
     </div>
   </article>
