@@ -4,9 +4,13 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  inLibary: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(["onBookOpen", "onAddBook"]);
+const emit = defineEmits(["onBookOpen", "onAddBook", "onRemoveBook"]);
 </script>
 
 <template>
@@ -24,7 +28,20 @@ const emit = defineEmits(["onBookOpen", "onAddBook"]);
       <p class="card__description">{{ book.description }}</p>
 
       <div class="card__meta">
-        <button class="like" @click="$emit('onAddBook')">Like</button>
+        <button
+          v-if="!inLibary"
+          class="like shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-2 rounded"
+          @click="$emit('onAddBook')"
+        >
+          Add
+        </button>
+        <button
+          v-else
+          class="like shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-2 rounded"
+          @click="$emit('onRemoveBook')"
+        >
+          Remove
+        </button>
         <button @click="$emit('onBookOpen')">Read more</button>
       </div>
     </div>

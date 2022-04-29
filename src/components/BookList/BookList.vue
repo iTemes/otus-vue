@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["onReadMore", "onAddToLibary"]);
+const emit = defineEmits(["onReadMore", "onAddToLibary", "onRemoveFromLibary"]);
 
 const isBooksListLength = computed(() => props.booksList.length > 0);
 </script>
@@ -24,8 +24,10 @@ const isBooksListLength = computed(() => props.booksList.length > 0);
       <li v-for="book in props.booksList" :key="book.id">
         <BookItem
           :book="book.volumeInfo"
+          :in-libary="book.inLibary"
           @on-book-open="$emit('onReadMore', book)"
           @on-add-book="$emit('onAddToLibary', book)"
+          @on-remove-book="$emit('onRemoveFromLibary', book)"
         />
       </li>
     </ul>
