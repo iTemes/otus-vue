@@ -1,8 +1,6 @@
 <script setup>
 import { reactive, watch, computed } from "vue";
 
-import getBooksFromParams from "../../api";
-
 const state = reactive({
   picked: "Title",
   textField: "",
@@ -27,6 +25,7 @@ const inputLegend = computed(() =>
 );
 
 const onSubmit = () => {
+  console.log("Form submit");
   switch (state.picked) {
     case "Title":
       state.queryParams = {
@@ -41,17 +40,7 @@ const onSubmit = () => {
     default:
       return;
   }
-
-  getBooksFromParams(state.queryParams)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) throw new Error(data.error);
-
-      emit("onFormSubmit", data.items);
-    })
-    .catch((error) => {
-      console.log("Error", error);
-    });
+  emit("onFormSubmit", state.queryParams);
 };
 </script>
 

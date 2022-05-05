@@ -1,26 +1,19 @@
 <script setup>
 import { reactive } from "vue";
 
+import { useBookStore } from "../store/booksStore";
+
 import PageTemplate from "@/views/general/PageTemplate/PageTemplate.vue";
 import BookList from "@/components/BookList/BookList.vue";
 import SearchForm from "@/components/SearchForm/SearchForm.vue";
 
 const emit = defineEmits(["onSearch", "onAddBook", "onRemoveBook"]);
 
-const props = defineProps({
-  books: {
-    type: Array,
-    default: () => [],
-  },
-  usersBooks: {
-    type: Array,
-    default: () => [],
-  },
-});
+const store = useBookStore();
 
-const handleFormSubmit = (data) => emit("onSearch", data);
-const handleAddToLibary = (book) => emit("onAddBook", book);
-const handleRemoveFromLibary = (book) => emit("onRemoveBook", book);
+const handleFormSubmit = (params) => store.fetchBooks(params);
+const handleAddToLibary = (book) => store.addBookToLibary(book);
+const handleRemoveFromLibary = (book) => store.removeBookFromLibary(book);
 </script>
 
 <template>
@@ -28,8 +21,8 @@ const handleRemoveFromLibary = (book) => emit("onRemoveBook", book);
     <template #main>
       <SearchForm @on-form-submit="handleFormSubmit" />
       <BookList
-        v-if="books.length"
-        :books-list="books"
+        v-if="store.books.length"
+        :books-list="store.books"
         @on-add-to-libary="handleAddToLibary"
         @on-remove-from-libary="handleRemoveFromLibary"
       />
