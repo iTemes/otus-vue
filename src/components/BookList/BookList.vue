@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-import BookItem from "../BookItem/BookItem.vue";
+import BookItem from "./BookListItem.vue";
 
 const props = defineProps({
   booksList: {

@@ -1,14 +1,3 @@
-<template>
-  <PageHeader />
-  <router-view
-    :books="state.books"
-    :users-books="state.usersBooks"
-    @on-search="handleFormSubmit"
-    @on-add-book="handleAddToLibary"
-    @on-remove-book="handleRemoveFromLibary"
-  />
-</template>
-
 <script setup>
 import { reactive } from "vue";
 
@@ -23,17 +12,26 @@ const handleFormSubmit = (data) => {
   state.books = [];
   state.books = [...data];
 };
-
 const handleAddToLibary = (book) => {
   book.inLibary = true;
   state.usersBooks.push(book);
 };
-
 const handleRemoveFromLibary = (book) => {
   book.inLibary = false;
   state.usersBooks = state.usersBooks.filter((item) => item.id !== book.id);
 };
 </script>
+
+<template>
+  <PageHeader />
+  <router-view
+    :books="state.books"
+    :users-books="state.usersBooks"
+    @on-search="handleFormSubmit"
+    @on-add-book="handleAddToLibary"
+    @on-remove-book="handleRemoveFromLibary"
+  />
+</template>
 
 <style>
 #app {

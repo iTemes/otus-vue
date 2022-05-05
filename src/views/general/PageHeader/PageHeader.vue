@@ -1,7 +1,3 @@
-<script setup>
-const emit = defineEmits(["onShowLibary"]);
-</script>
-
 <template>
   <header>
     <nav class="flex items-center justify-between flex-wrap bg-purple-500 p-6">

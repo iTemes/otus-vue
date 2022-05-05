@@ -30,7 +30,6 @@ const getCategories = computed(
 const handleCloseBook = () => {
   router.back();
 };
-
 const fetchData = () => {
   getSingleBook(route.params.id)
     .then((response) => response.json())
@@ -49,6 +48,7 @@ onMounted(() => {
   fetchData();
 });
 </script>
+
 <template>
   <PageTemplate>
     <template #main>

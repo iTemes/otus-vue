@@ -22,6 +22,10 @@ watch(
   }
 );
 
+const inputLegend = computed(() =>
+  state.picked === "Title" ? "Title name" : "Author name"
+);
+
 const onSubmit = () => {
   switch (state.picked) {
     case "Title":
@@ -49,10 +53,6 @@ const onSubmit = () => {
       console.log("Error", error);
     });
 };
-
-const getInputLegend = computed(() =>
-  state.picked === "Title" ? "Title name" : "Author name"
-);
 </script>
 
 <template>
@@ -82,7 +82,7 @@ const getInputLegend = computed(() =>
       </fieldset>
       <fieldset class="flex md:w-1/3 mx-auto">
         <legend>
-          Search by: <b>{{ getInputLegend }}</b>
+          Search by: <b>{{ inputLegend }}</b>
         </legend>
         <input
           v-model="state.textField"
@@ -98,5 +98,3 @@ const getInputLegend = computed(() =>
     </form>
   </section>
 </template>
-
-<style lang="scss" scoped></style>

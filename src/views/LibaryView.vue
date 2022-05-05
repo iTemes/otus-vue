@@ -9,11 +9,13 @@ const props = defineProps({
     default: () => [],
   },
 });
+
 const emit = defineEmits(["onReadMore", "onAddBook", "onRemoveBook"]);
 
 const handleAddNewBook = (book) => emit("onAddBook", book);
 const handleRemoveBook = (book) => emit("onRemoveBook", book);
 </script>
+
 <template>
   <PageTemplate>
     <template #main>
@@ -25,6 +27,7 @@ const handleRemoveBook = (book) => emit("onRemoveBook", book);
           :books-list="props.usersBooks"
           @on-remove-from-libary="handleRemoveBook"
         />
+        <p v-else>No books in libary :(</p>
       </section>
     </template>
   </PageTemplate>
