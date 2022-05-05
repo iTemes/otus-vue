@@ -17,13 +17,15 @@ const props = defineProps({
 
 const state = reactive({ bookById: null, isError: false, isLoading: true });
 
-const getAuthors = computed(() => state.bookById?.volumeInfo.authors || []);
-const getISBNs = computed(() => state.bookById?.volumeInfo.industryIdentifiers);
-const getRetailPrice = computed(
+const bookAuthors = computed(() => state.bookById?.volumeInfo.authors || []);
+const bookISBNs = computed(
+  () => state.bookById?.volumeInfo.industryIdentifiers
+);
+const bookRetailPrice = computed(
   () =>
     `${state.bookById?.saleInfo.retailPrice.amount} ${state.bookById?.saleInfo.retailPrice.currencyCode}`
 );
-const getCategories = computed(
+const bookCategories = computed(
   () => state.bookById?.volumeInfo.categories || []
 );
 
@@ -88,10 +90,10 @@ onMounted(() => {
           >
             <div class="mb-8">
               <div
-                v-if="getISBNs"
+                v-if="bookISBNs"
                 class="text-sm text-gray-600 flex items-center mb-5"
               >
-                <p v-for="isbn in getISBNs" :key="isbn.identifier">
+                <p v-for="isbn in bookISBNs" :key="isbn.identifier">
                   <span
                     class="bg-gray-200 rounded-full font-semibold text-gray-700 px-3 py-1 mr-2 mb-2"
                   >
@@ -106,9 +108,9 @@ onMounted(() => {
                 {{ state.bookById.volumeInfo.description }}
               </p>
             </div>
-            <div v-if="getCategories.length" class="flex pt-2 pb-2">
+            <div v-if="bookCategories.length" class="flex pt-2 pb-2">
               <span
-                v-for="(tag, key) in getCategories"
+                v-for="(tag, key) in bookCategories"
                 :key="key"
                 class="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
               >
@@ -116,9 +118,9 @@ onMounted(() => {
               </span>
             </div>
             <div class="flex items-center">
-              <div v-if="getAuthors.length" class="text-sm text-left">
+              <div v-if="bookAuthors.length" class="text-sm text-left">
                 <p
-                  v-for="(author, key) in getAuthors"
+                  v-for="(author, key) in bookAuthors"
                   :key="key"
                   class="text-gray-900 leading-none"
                 >
@@ -132,7 +134,7 @@ onMounted(() => {
 
             <div class="flex items-center justify-end my-10">
               <p v-if="state.bookById.saleInfo.retailPrice">
-                <b>{{ getRetailPrice }}</b>
+                <b>{{ bookRetailPrice }}</b>
               </p>
               <a
                 v-if="state.bookById.saleInfo.buyLink"
