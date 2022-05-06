@@ -60,7 +60,6 @@ export const useBookStore = defineStore("books", {
       }
 
       this.userBooks = this.userBooks.filter((item) => item.id !== book.id);
-      console.log("removeBookFromLibary", this.userBooks);
     },
     async fetchBooks(queryParams) {
       try {
