@@ -69,11 +69,14 @@ export const useBookStore = defineStore("books", {
         const response = await getBooksFromParams(queryParams);
         const data = await response.json();
 
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
         this.addBooks(data.items);
       } catch (error) {
         // TODO ERROR HANDLER Tooltip
         this.isError = true;
-        throw new Error(error);
       } finally {
         this.isLoading = false;
       }
