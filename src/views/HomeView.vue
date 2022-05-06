@@ -1,7 +1,5 @@
 <script setup>
-import { reactive } from "vue";
-
-import { useBookStore } from "../store/booksStore";
+import { useBookStore } from "@/store/booksStore";
 
 import PageTemplate from "@/views/general/PageTemplate/PageTemplate.vue";
 import BookList from "@/components/BookList/BookList.vue";

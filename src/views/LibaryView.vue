@@ -1,5 +1,5 @@
 <script setup>
-import { useBookStore } from "../store/booksStore";
+import { useBookStore } from "@/store/booksStore";
 
 import PageTemplate from "./general/PageTemplate/PageTemplate.vue";
 import BookList from "@/components/BookList/BookList.vue";

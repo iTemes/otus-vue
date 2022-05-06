@@ -25,7 +25,6 @@ const inputLegend = computed(() =>
 );
 
 const onSubmit = () => {
-  console.log("Form submit");
   switch (state.picked) {
     case "Title":
       state.queryParams = {

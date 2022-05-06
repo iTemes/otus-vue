@@ -16,7 +16,7 @@ const isBooksListLength = computed(() => props.booksList.length > 0);
 </script>
 
 <template>
-  <section>
+  <section class="mb-6">
     <h2 class="text-3xl mb-6 font-bold">Book list</h2>
 
     <p v-if="!isBooksListLength">No results from server</p>

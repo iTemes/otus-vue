@@ -1,3 +1,9 @@
+<script setup>
+import { useBookStore } from "@/store/booksStore";
+
+const store = useBookStore();
+</script>
+
 <template>
   <header>
     <nav class="flex items-center justify-between flex-wrap bg-purple-500 p-6">
@@ -48,6 +54,9 @@
             class="block mt-4 mx-5 lg:inline-block lg:mt-0 text-teal-200 text-xl hover:text-white mr-4"
           >
             My libary
+            <span v-if="store.getUserBooksCount">
+              ({{ store.getUserBooksCount }})
+            </span>
           </router-link>
         </div>
       </div>
