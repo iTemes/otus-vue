@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, onMounted } from "vue";
+import { watch, onMounted } from "vue";
 
 import { useBookStore } from "@/store/booksStore";
 
