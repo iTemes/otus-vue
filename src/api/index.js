@@ -1,14 +1,13 @@
 const DEFAULT_URL = "https://www.googleapis.com/books/v1/volumes";
 
-const setParams = (params) => {
-  const queries = params || {};
+const setParams = (params = {}) => {
   const queriesObject = Object.assign(
     {
       key: process.env.VUE_APP_API_KEY,
       maxResults: 30,
       q: "",
     },
-    queries
+    params
   );
 
   return new URLSearchParams(queriesObject);

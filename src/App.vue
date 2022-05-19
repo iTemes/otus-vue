@@ -1,36 +1,30 @@
 <script setup>
-import { reactive } from "vue";
+import { watch, onMounted } from "vue";
+
+import { useBookStore } from "@/store/booksStore";
 
 import PageHeader from "./views/general/PageHeader/PageHeader.vue";
 
-const state = reactive({
-  books: [],
-  usersBooks: [],
-});
+const store = useBookStore();
 
-const handleFormSubmit = (data) => {
-  state.books = [];
-  state.books = [...data];
-};
-const handleAddToLibary = (book) => {
-  book.inLibary = true;
-  state.usersBooks.push(book);
-};
-const handleRemoveFromLibary = (book) => {
-  book.inLibary = false;
-  state.usersBooks = state.usersBooks.filter((item) => item.id !== book.id);
-};
+watch(
+  store.$state,
+  (state) => {
+    const userBooks = state.userBooks;
+    localStorage.setItem("userBooks", JSON.stringify(userBooks));
+  },
+  { deep: true }
+);
+
+onMounted(() => {
+  const userBooksFromStorage = JSON.parse(localStorage.getItem("userBooks"));
+  userBooksFromStorage && store.addBooksToLibary(userBooksFromStorage);
+});
 </script>
 
 <template>
   <PageHeader />
-  <router-view
-    :books="state.books"
-    :users-books="state.usersBooks"
-    @on-search="handleFormSubmit"
-    @on-add-book="handleAddToLibary"
-    @on-remove-book="handleRemoveFromLibary"
-  />
+  <router-view />
 </template>
 
 <style>

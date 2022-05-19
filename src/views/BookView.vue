@@ -1,12 +1,11 @@
 <script setup>
-import { useRoute, useRouter } from "vue-router";
-import { onMounted, computed, reactive } from "vue";
+import { onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useBookStore } from "@/store/booksStore";
 
 import PageTemplate from "./general/PageTemplate/PageTemplate.vue";
-import { getSingleBook } from "@/api";
 
 const router = useRouter();
-const route = useRoute();
 
 const props = defineProps({
   id: {
@@ -15,35 +14,28 @@ const props = defineProps({
   },
 });
 
-const state = reactive({ bookById: null, isError: false, isLoading: true });
+const store = useBookStore();
 
-const bookAuthors = computed(() => state.bookById?.volumeInfo.authors || []);
+const bookAuthors = computed(() => store.singleBook?.volumeInfo.authors || []);
 const bookISBNs = computed(
-  () => state.bookById?.volumeInfo.industryIdentifiers
+  () => store.singleBook?.volumeInfo.industryIdentifiers
 );
 const bookRetailPrice = computed(
   () =>
-    `${state.bookById?.saleInfo.retailPrice.amount} ${state.bookById?.saleInfo.retailPrice.currencyCode}`
+    `${store.singleBook?.saleInfo.retailPrice.amount} ${store.singleBook?.saleInfo.retailPrice.currencyCode}`
 );
 const bookCategories = computed(
-  () => state.bookById?.volumeInfo.categories || []
+  () => store.singleBook?.volumeInfo.categories || []
+);
+const isBookAvailable = computed(
+  () => !store.isError && !store.isLoading && store.singleBook
 );
 
 const handleCloseBook = () => {
   router.back();
 };
 const fetchData = () => {
-  getSingleBook(route.params.id)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) throw new Error(data.error);
-      state.bookById = data;
-    })
-    .catch((error) => {
-      console.log("Error", error);
-      state.isError = true;
-    })
-    .finally(() => (state.isLoading = false));
+  store.fetchSingleBook(props.id);
 };
 
 onMounted(() => {
@@ -54,10 +46,7 @@ onMounted(() => {
 <template>
   <PageTemplate>
     <template #main>
-      <section
-        v-if="!state.isError && !state.isLoading"
-        class="md:w-2/4 mx-auto mt-10"
-      >
+      <section v-if="isBookAvailable" class="md:w-2/4 mx-auto mt-10">
         <div class="relative max-w-sm w-full lg:max-w-full lg:flex items-start">
           <button
             class="absolute top-2 right-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
@@ -80,10 +69,10 @@ onMounted(() => {
             <span>Close</span>
           </button>
           <img
-            v-if="state.bookById.volumeInfo.imageLinks"
+            v-if="store.singleBook.volumeInfo.imageLinks"
             class="h-48 lg:h-auto lg:w-1/4 rounded-t lg:rounded-t-none lg:rounded-l"
-            :src="state.bookById.volumeInfo.imageLinks.thumbnail"
-            :alt="state.bookById.volumeInfo.title"
+            :src="store.singleBook.volumeInfo.imageLinks.thumbnail"
+            :alt="store.singleBook.volumeInfo.title"
           />
           <div
             class="lg:w-3/4 border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
@@ -102,10 +91,10 @@ onMounted(() => {
                 </p>
               </div>
               <h2 class="text-gray-900 font-bold text-xl text-left mb-2">
-                {{ state.bookById.volumeInfo.title }}
+                {{ store.singleBook.volumeInfo.title }}
               </h2>
               <p class="text-gray-700 text-base text-left">
-                {{ state.bookById.volumeInfo.description }}
+                {{ store.singleBook.volumeInfo.description }}
               </p>
             </div>
             <div v-if="bookCategories.length" class="flex pt-2 pb-2">
@@ -127,18 +116,18 @@ onMounted(() => {
                   {{ author }}
                 </p>
                 <p class="text-gray-600">
-                  {{ state.bookById.volumeInfo.publishedDate }}
+                  {{ store.singleBook.volumeInfo.publishedDate }}
                 </p>
               </div>
             </div>
 
             <div class="flex items-center justify-end my-10">
-              <p v-if="state.bookById.saleInfo.retailPrice">
+              <p v-if="store.singleBook.saleInfo.retailPrice">
                 <b>{{ bookRetailPrice }}</b>
               </p>
               <a
-                v-if="state.bookById.saleInfo.buyLink"
-                :href="state.bookById.saleInfo.buyLink"
+                v-if="store.singleBook.saleInfo.buyLink"
+                :href="store.singleBook.saleInfo.buyLink"
                 target="_blank"
                 class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-4 rounded"
               >
@@ -148,7 +137,7 @@ onMounted(() => {
           </div>
         </div>
       </section>
-      <p v-if="state.isError" class="my-20">
+      <p v-if="store.isError" class="my-20">
         Sorry..., We Can`t find your book
         <button
           class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 ml-4 rounded"
@@ -157,7 +146,7 @@ onMounted(() => {
           Go back
         </button>
       </p>
-      <p v-if="state.isLoading">Loading...</p>
+      <p v-if="store.isLoading">Loading...</p>
     </template>
   </PageTemplate>
 </template>
