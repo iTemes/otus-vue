@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 
-import BookItem from "../BookItem/BookItem.vue";
+import BookItem from "./BookListItem.vue";
 
 const props = defineProps({
   booksList: {
@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["onReadMore", "onAddToLibary", "onRemoveFromLibary"]);
+const emit = defineEmits(["onAddToLibary", "onRemoveFromLibary"]);
 
 const isBooksListLength = computed(() => props.booksList.length > 0);
 </script>
@@ -23,9 +23,8 @@ const isBooksListLength = computed(() => props.booksList.length > 0);
     <ul v-else class="books-list">
       <li v-for="book in props.booksList" :key="book.id">
         <BookItem
-          :book="book.volumeInfo"
+          :book="book"
           :in-libary="book.inLibary"
-          @on-book-open="$emit('onReadMore', book)"
           @on-add-book="$emit('onAddToLibary', book)"
           @on-remove-book="$emit('onRemoveFromLibary', book)"
         />

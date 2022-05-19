@@ -1,17 +1,12 @@
 <script setup>
-import uniqid from "uniqid";
-
 import { reactive, ref, onMounted } from "vue";
 
+import uniqid from "uniqid";
+
 const emit = defineEmits(["onAddNewBook"]);
+
 const input = ref(null);
 const form = ref(null);
-
-const handleFormSubmit = () => {
-  state.newBook.id = uniqid();
-  emit("onAddNewBook", state.newBook);
-  form.value.reset();
-};
 
 const state = reactive({
   newBook: {
@@ -31,6 +26,12 @@ const state = reactive({
     },
   },
 });
+
+const handleFormSubmit = () => {
+  state.newBook.id = uniqid();
+  emit("onAddNewBook", state.newBook);
+  form.value.reset();
+};
 
 onMounted(() => {
   input.value.focus();

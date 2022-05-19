@@ -1,7 +1,3 @@
-<script setup>
-const emit = defineEmits(["onShowLibary"]);
-</script>
-
 <template>
   <header>
     <nav class="flex items-center justify-between flex-wrap bg-purple-500 p-6">
@@ -41,20 +37,18 @@ const emit = defineEmits(["onShowLibary"]);
       </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow mr-20">
-          <button
-            href="#search"
+          <router-link
+            to="/"
             class="block mt-4 mx-5 lg:inline-block lg:mt-0 text-teal-200 text-xl hover:text-white mr-4"
-            @click="$emit('onShowLibary', false)"
           >
             Search
-          </button>
-          <button
-            href="#my-libary"
+          </router-link>
+          <router-link
+            to="/libary"
             class="block mt-4 mx-5 lg:inline-block lg:mt-0 text-teal-200 text-xl hover:text-white mr-4"
-            @click="$emit('onShowLibary', true)"
           >
             My libary
-          </button>
+          </router-link>
         </div>
       </div>
     </nav>
