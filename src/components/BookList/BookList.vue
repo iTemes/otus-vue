@@ -12,14 +12,14 @@ const props = defineProps({
 
 const emit = defineEmits(["onAddToLibary", "onRemoveFromLibary"]);
 
-const isBooksListLength = computed(() => props.booksList.length > 0);
+const isEmpty = computed(() => props.booksList.length > 0);
 </script>
 
 <template>
   <section class="mb-6">
     <h2 class="text-3xl mb-6 font-bold">Book list</h2>
 
-    <p v-if="!isBooksListLength">No results from server</p>
+    <p v-if="!isEmpty">No results from server</p>
     <ul v-else class="books-list">
       <li v-for="book in props.booksList" :key="book.id">
         <BookItem

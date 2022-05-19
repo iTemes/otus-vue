@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import getBooksFromParams, { getSingleBook } from "../api";
+import getBooksFromParams, { getSingleBook } from "@/api";
 
 export const useBookStore = defineStore("books", {
   state: () => ({

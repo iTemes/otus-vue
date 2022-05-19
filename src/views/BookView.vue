@@ -1,8 +1,6 @@
 <script setup>
 import { onMounted, computed } from "vue";
-
 import { useRouter } from "vue-router";
-
 import { useBookStore } from "@/store/booksStore";
 
 import PageTemplate from "./general/PageTemplate/PageTemplate.vue";
